@@ -58,28 +58,31 @@ public class PVPGunPlusListener implements Listener
 				materials.add(material);
 			}
 		}
-
-		for (Material material : materials)
+		
+		BlockBreakEvent blockBreak = new BlockBreakEvent(block, player);
+		plugin.getServer().getPluginManager().callEvent(blockBreak);
+		if (!blockBreak.isCancelled())
 		{
-			if (material == mat)
+			if (plugin.getConfig().getBoolean("block-crack"))
 			{
-				BlockBreakEvent blockBreak = new BlockBreakEvent(block, player);
-				if (!blockBreak.isCancelled())
+				if (mat == Material.STONE)
+				{
+					block.setType(Material.COBBLESTONE);
+					return;
+				}
+				if (mat == Material.SMOOTH_BRICK)
+				{
+					block.setData((byte) 2);
+					return;
+				}
+			}
+			
+			for (Material material : materials)
+			{
+				if (material == mat)
 				{
 					block.breakNaturally();
 				}
-			}
-		}
-		
-		if (plugin.getConfig().getBoolean("block-crack"))
-		{
-			if (mat == Material.STONE)
-			{
-				block.setType(Material.COBBLESTONE);
-			}
-			if (mat == Material.SMOOTH_BRICK)
-			{
-				block.setData((byte) 2);
 			}
 		}
 	}
