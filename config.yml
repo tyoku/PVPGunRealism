@@ -1,0 +1,29 @@
+# PVPGunRealism Configuration
+# By dmulloy2
+
+blood-effect: true
+# Blood effect when entities are hit by a bullet
+
+smoke-effect: true
+# Smoke effect when entities are hit by a bullet
+
+bullet-sound:
+  enabled: true
+  sound: MAGMACUBE_JUMP
+  # Sound made when an entity is hit by a bullet
+  # A list of valid sounds can be found here:
+  # http://jd.bukkit.org/rb/apidocs/org/bukkit/Sound.html
+
+block-shatter:
+# Blocks broken when shot
+  enabled: true
+  blocks:
+  # Format: material name OR block id
+    - leaves
+    - glass
+    - thin_glass
+    - sand
+    - gravel
+    
+block-crack: true
+# Crackable blocks crack when shot

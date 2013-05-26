@@ -1,0 +1,16 @@
+name: PVPGunRealism
+main: net.dmulloy2.pvpgunrealism.PVPGunRealism
+version: 1.0
+description: A plugin that adds realistic effects to PVPGunPlus
+softdepend: [PVPGunPlus]
+author: dmulloy2
+commands:
+  pvpgunrealism:
+    description: Used to reload the plugin
+    usage: /<command> reload
+    aliases: [gunrealism]
+    
+permissions:
+  pvpgunrealism.reload:
+    description: Used to reload the plugin
+    default: false
