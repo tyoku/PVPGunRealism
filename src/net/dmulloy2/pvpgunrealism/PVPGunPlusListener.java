@@ -14,6 +14,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
+
 import com.orange451.pvpgunplus.events.PVPGunPlusBulletCollideEvent;
 import com.orange451.pvpgunplus.events.PVPGunPlusGunDamageEntityEvent;
 
@@ -96,23 +99,28 @@ public class PVPGunPlusListener implements Listener
 		Entity entity = event.getEntityDamaged();
 		if (entity == null)
 			return;
-
-		World world = entity.getWorld();
 		
-		if (plugin.getConfig().getBoolean("blood-effect"))
+		EntityDamageByEntityEvent damageEvent = new EntityDamageByEntityEvent(event.getKillerAsPlayer(), entity, DamageCause.ENTITY_ATTACK, event.getDamage());
+		plugin.getServer().getPluginManager().callEvent(damageEvent);
+		if (!damageEvent.isCancelled())
 		{
-			entity.getWorld().playEffect(entity.getLocation(), Effect.STEP_SOUND, Material.REDSTONE_BLOCK.getId());
-		}
-		
-		if (plugin.getConfig().getBoolean("smoke-effect"))
-		{
-			entity.getWorld().playEffect(event.getShooter().getPlayer().getLocation(), Effect.SMOKE, 5);
-		}
-		
-		if (plugin.getConfig().getBoolean("bullet-sound.enabled"))
-		{
-			Sound sound = Sound.valueOf(plugin.getConfig().getString("bullet-sound.sound").toUpperCase());
-			world.playSound(entity.getLocation(), sound, 10, 1);
+			World world = entity.getWorld();
+			
+			if (plugin.getConfig().getBoolean("blood-effect"))
+			{
+				entity.getWorld().playEffect(entity.getLocation(), Effect.STEP_SOUND, Material.REDSTONE_BLOCK.getId());
+			}
+			
+			if (plugin.getConfig().getBoolean("smoke-effect"))
+			{
+				entity.getWorld().playEffect(event.getShooter().getPlayer().getLocation(), Effect.SMOKE, 5);
+			}
+			
+			if (plugin.getConfig().getBoolean("bullet-sound.enabled"))
+			{
+				Sound sound = Sound.valueOf(plugin.getConfig().getString("bullet-sound.sound").toUpperCase());
+				world.playSound(entity.getLocation(), sound, 10, 1);
+			}
 		}
 	}
 }
