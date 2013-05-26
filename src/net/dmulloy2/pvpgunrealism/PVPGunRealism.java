@@ -60,6 +60,7 @@ public class PVPGunRealism extends JavaPlugin implements CommandExecutor
 				if (sender.hasPermission("pvpgunrealism.reload"))
 				{
 					reloadConfig();
+					sender.sendMessage(ChatColor.GOLD + "Reloaded Config!");
 				}
 			}
 			else

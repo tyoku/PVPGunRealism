@@ -15,6 +15,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 
 import com.orange451.pvpgunplus.events.PVPGunPlusBulletCollideEvent;
@@ -106,20 +107,43 @@ public class PVPGunPlusListener implements Listener
 		{
 			World world = entity.getWorld();
 			
-			if (plugin.getConfig().getBoolean("blood-effect"))
+			if (plugin.getConfig().getBoolean("blood-effect.enabled"))
 			{
-				entity.getWorld().playEffect(entity.getLocation(), Effect.STEP_SOUND, Material.REDSTONE_BLOCK.getId());
+				int blockId = plugin.getConfig().getInt("blood-effect.block-id");
+				world.playEffect(entity.getLocation(), Effect.STEP_SOUND, blockId);
 			}
 			
 			if (plugin.getConfig().getBoolean("smoke-effect"))
 			{
-				entity.getWorld().playEffect(event.getShooter().getPlayer().getLocation(), Effect.SMOKE, 5);
+				world.playEffect(event.getShooter().getPlayer().getLocation(), Effect.SMOKE, 5);
 			}
 			
 			if (plugin.getConfig().getBoolean("bullet-sound.enabled"))
 			{
 				Sound sound = Sound.valueOf(plugin.getConfig().getString("bullet-sound.sound").toUpperCase());
 				world.playSound(entity.getLocation(), sound, 10, 1);
+			}
+		}
+	}
+	
+	@EventHandler(priority = EventPriority.MONITOR)
+	public void onEntityDamage(EntityDamageEvent event)
+	{
+		if (event.isCancelled())
+			return;
+		
+		Entity entity = event.getEntity();
+		if (entity == null)
+			return;
+		
+		World world = entity.getWorld();
+		
+		if (plugin.getConfig().getBoolean("blood-effect.enabled"))
+		{
+			if (plugin.getConfig().getBoolean("blood-effect.guns-only") == false)
+			{
+				int blockId = plugin.getConfig().getInt("blood-effect.block-id");
+				world.playEffect(entity.getLocation(), Effect.STEP_SOUND, blockId);
 			}
 		}
 	}

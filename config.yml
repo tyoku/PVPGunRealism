@@ -1,8 +1,13 @@
 # PVPGunRealism Configuration
 # By dmulloy2
 
-blood-effect: true
-# Blood effect when entities are hit by a bullet
+blood-effect:
+  enabled: true
+  block-id: 152
+  # Block break effect when entities are hit
+  # Defaults to redstone block
+  guns-only: false
+  # Do blood effect for only guns
 
 smoke-effect: true
 # Smoke effect when entities are hit by a bullet
