@@ -1,11 +1,17 @@
 package net.dmulloy2.pvpgunrealism;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import com.massivecraft.factions.Board;
+import com.massivecraft.factions.FLocation;
+import com.massivecraft.factions.Faction;
 
 public class PVPGunRealism extends JavaPlugin implements CommandExecutor
 {
@@ -73,5 +79,44 @@ public class PVPGunRealism extends JavaPlugin implements CommandExecutor
 			sender.sendMessage(ChatColor.RED + "Invalid args! Try /pvpgunrealism reload!");
 		}
 		return true;
+	}
+
+	public boolean checkFactions(Location loc, boolean safeZoneCheck)
+	{
+		PluginManager pm = getServer().getPluginManager();
+		if (pm.isPluginEnabled("Factions"))
+		{
+			Plugin pl = pm.getPlugin("Factions");
+			String version = pl.getDescription().getVersion();
+			if (version.startsWith("1.6."))
+			{
+				Faction otherFaction = Board.getFactionAt(new FLocation(loc));
+				if (safeZoneCheck == true)
+				{
+					if (otherFaction.isWarZone() || otherFaction.isSafeZone())
+						return true;
+				}
+				else
+				{
+					if (otherFaction.isWarZone())
+						return true;
+				}
+			}
+		}
+		if (pm.isPluginEnabled("SwornNations"))
+		{
+			Faction otherFaction = Board.getFactionAt(new FLocation(loc));
+			if (safeZoneCheck == true)
+			{
+				if (otherFaction.isWarZone() || otherFaction.isSafeZone())
+					return true;
+			}
+			else
+			{
+				if (otherFaction.isWarZone())
+					return true;
+			}
+		}
+		return false;
 	}
 }

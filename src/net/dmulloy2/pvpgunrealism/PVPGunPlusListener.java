@@ -43,6 +43,9 @@ public class PVPGunPlusListener implements Listener
 		if (block == null)
 			return;
 		
+		if (plugin.checkFactions(player.getLocation(), true))
+			return;
+		
 		Material mat = block.getState().getType();
 		
 		List<Material> materials = new ArrayList<Material>();
