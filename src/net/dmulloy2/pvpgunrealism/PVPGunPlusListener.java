@@ -114,6 +114,7 @@ public class PVPGunPlusListener implements Listener
 			{
 				int blockId = plugin.getConfig().getInt("blood-effect.block-id");
 				world.playEffect(entity.getLocation(), Effect.STEP_SOUND, blockId);
+				world.playEffect(entity.getLocation().add(0, 1, 0), Effect.STEP_SOUND, blockId);
 			}
 			
 			if (plugin.getConfig().getBoolean("smoke-effect"))
@@ -147,6 +148,7 @@ public class PVPGunPlusListener implements Listener
 			{
 				int blockId = plugin.getConfig().getInt("blood-effect.block-id");
 				world.playEffect(entity.getLocation(), Effect.STEP_SOUND, blockId);
+				world.playEffect(entity.getLocation().add(0, 1, 0), Effect.STEP_SOUND, blockId);
 			}
 		}
 	}
