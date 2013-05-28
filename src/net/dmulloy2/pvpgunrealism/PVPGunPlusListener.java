@@ -104,7 +104,7 @@ public class PVPGunPlusListener implements Listener
 		if (entity == null)
 			return;
 		
-		EntityDamageByEntityEvent damageEvent = new EntityDamageByEntityEvent(event.getKillerAsPlayer(), entity, DamageCause.ENTITY_ATTACK, event.getDamage());
+		EntityDamageByEntityEvent damageEvent = new EntityDamageByEntityEvent(event.getShooter().getPlayer(), entity, DamageCause.ENTITY_ATTACK, event.getDamage());
 		plugin.getServer().getPluginManager().callEvent(damageEvent);
 		if (!damageEvent.isCancelled())
 		{
