@@ -9,6 +9,7 @@ import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -137,6 +138,9 @@ public class PVPGunPlusListener implements Listener
 		
 		Entity entity = event.getEntity();
 		if (entity == null)
+			return;
+		
+		if (!(entity instanceof LivingEntity))
 			return;
 		
 		World world = entity.getWorld();
