@@ -56,11 +56,7 @@ public class PVPGunPlusListener implements Listener
 			Material material = null;
 			try { material = Material.getMaterial(configMaterial.toUpperCase()); }
 			catch (Exception e) { material = Material.getMaterial(Integer.parseInt(configMaterial)); }
-			if (material == null)
-			{
-				plugin.getLogger().severe("Error parsing material \"" + configMaterial + "\"!");
-			}
-			else
+			if (material != null)
 			{
 				materials.add(material);
 			}
@@ -134,6 +130,9 @@ public class PVPGunPlusListener implements Listener
 	public void onEntityDamage(EntityDamageEvent event)
 	{
 		if (event.isCancelled())
+			return;
+		
+		if (event.getDamage() <= 0)
 			return;
 		
 		Entity entity = event.getEntity();
